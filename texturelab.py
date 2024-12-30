@@ -12,12 +12,29 @@ import multiprocessing
 # ---------------------------
 
 class Connection:
+    """
+    Represents a connection between nodes in a neural network.
+
+    Attributes:
+        target_node (Node): The node to which this connection points.
+        weight (float): The weight of the connection.
+        weight_history (list): A history of the weights for this connection.
+    """
     def __init__(self, target_node, weight=None):
         self.target_node = target_node
         self.weight = weight if weight is not None else random.uniform(0.1, 1.0)
         self.weight_history = []
 
 class Node:
+    """
+    Represents a node in a neural network.
+
+    Attributes:
+        label (str): The label of the node.
+        connections (list): A list of connections from this node to other nodes.
+        activation (float): The current activation level of the node.
+        activation_history (list): A history of the activation levels for this node.
+    """
     def __init__(self, label):
         self.label = label
         self.connections = []
@@ -25,9 +42,22 @@ class Node:
         self.activation_history = []
 
     def add_connection(self, target_node, weight=None):
+        """
+        Adds a connection from this node to another node.
+
+        Args:
+            target_node (Node): The node to which the connection is made.
+            weight (float, optional): The weight of the connection. Defaults to a random value between 0.1 and 1.0.
+        """
         self.connections.append(Connection(target_node, weight))
 
     def propagate_signal(self, input_signal):
+        """
+        Propagates the input signal through the node and its connections.
+
+        Args:
+            input_signal (float): The input signal to the node.
+        """
         self.activation = max(0, input_signal)
         self.activation_history.append(self.activation)
         for connection in self.connections:
@@ -35,14 +65,37 @@ class Node:
             connection.weight_history.append(connection.weight)
 
 class ImageNode(Node):
+    """
+    Represents a node in a neural network that generates an image.
+
+    Attributes:
+        image (torch.Tensor): The generated image.
+    """
     def __init__(self, label):
         super().__init__(label)
         self.image = None
 
     def generate_image(self, category_nodes, original_image):
+        """
+        Generates an image based on the category nodes and the original image.
+
+        Args:
+            category_nodes (list): A list of category nodes.
+            original_image (PIL.Image): The original image.
+        """
         self.image = self.generate_image_from_categories(category_nodes, original_image)
 
     def generate_image_from_categories(self, category_nodes, original_image):
+        """
+        Generates an image from the category nodes and the original image.
+
+        Args:
+            category_nodes (list): A list of category nodes.
+            original_image (PIL.Image): The original image.
+
+        Returns:
+            torch.Tensor: The generated image tensor.
+        """
         image_array = np.array(original_image) / 255.0
         image_tensor = torch.tensor(image_array, dtype=torch.float32).permute(2, 0, 1)
 
@@ -60,6 +113,15 @@ class ImageNode(Node):
         return image_tensor
 
     def process_chunk(self, args):
+        """
+        Processes a chunk of the image tensor.
+
+        Args:
+            args (tuple): A tuple containing the image tensor, start row, chunk size, and category nodes.
+
+        Returns:
+            tuple: A tuple containing the start row and the modified chunk.
+        """
         image_tensor, start_row, chunk_size, category_nodes = args
         modified_chunk = image_tensor[:, start_row:start_row + chunk_size, :].clone()
         for x in range(modified_chunk.shape[1]):
@@ -84,12 +146,31 @@ resolutions = {
 }
 
 def save_image(image_tensor, filename, resolution):
+    """
+    Saves an image tensor to a file.
+
+    Args:
+        image_tensor (torch.Tensor): The image tensor to save.
+        filename (str): The filename to save the image to.
+        resolution (str): The resolution of the image.
+    """
     width, height = resolutions.get(resolution, (1920, 1080))
     image = Image.fromarray((image_tensor.numpy().transpose(1, 2, 0) * 255).astype(np.uint8))
     image = image.resize((width, height), Image.Resampling.LANCZOS)
     image.save(filename, format='PNG')
 
 def generate_texture_with_network(image, category_nodes, resolution):
+    """
+    Generates a texture using a neural network.
+
+    Args:
+        image (PIL.Image): The input image.
+        category_nodes (list): A list of category nodes.
+        resolution (str): The resolution of the output image.
+
+    Returns:
+        torch.Tensor: The generated image tensor.
+    """
     width, height = resolutions.get(resolution, (1024, 1024))
     image = image.resize((width, height), Image.Resampling.LANCZOS)
     image_array = np.array(image) / 255.0
@@ -109,6 +190,24 @@ def generate_texture_with_network(image, category_nodes, resolution):
     return image_tensor
 
 def process_texture(image, strength, scale, invert_specular, blur_radius, metallic_intensity, emission_intensity, opacity_threshold, invert_roughness, resolution):
+    """
+    Processes the input image to generate various texture maps.
+
+    Args:
+        image (PIL.Image): The input image.
+        strength (float): The strength of the normal map.
+        scale (float): The scale of the height map.
+        invert_specular (bool): Whether to invert the specular map.
+        blur_radius (int): The blur radius for the ambient occlusion map.
+        metallic_intensity (float): The intensity of the metallic map.
+        emission_intensity (float): The intensity of the emission map.
+        opacity_threshold (int): The threshold for the opacity map.
+        invert_roughness (bool): Whether to invert the roughness map.
+        resolution (str): The resolution of the output images.
+
+    Returns:
+        dict: A dictionary containing the generated texture maps.
+    """
     image_array = np.array(image)
 
     category_nodes = [Node(label) for label in ["Rot", "Grün", "Blau", "Gelb", "Cyan", "Magenta"]]
@@ -165,6 +264,24 @@ def process_texture(image, strength, scale, invert_specular, blur_radius, metall
 # ---------------------------
 
 def process_and_display(image, resolution, strength, scale, invert_specular, blur_radius, metallic_intensity, emission_intensity, opacity_threshold, invert_roughness):
+    """
+    Processes the input image and displays the generated texture maps.
+
+    Args:
+        image (PIL.Image): The input image.
+        resolution (str): The resolution of the output images.
+        strength (float): The strength of the normal map.
+        scale (float): The scale of the height map.
+        invert_specular (bool): Whether to invert the specular map.
+        blur_radius (int): The blur radius for the ambient occlusion map.
+        metallic_intensity (float): The intensity of the metallic map.
+        emission_intensity (float): The intensity of the emission map.
+        opacity_threshold (int): The threshold for the opacity map.
+        invert_roughness (bool): Whether to invert the roughness map.
+
+    Returns:
+        tuple: A tuple containing the generated texture maps as PIL images.
+    """
     textures = process_texture(image, strength, scale, invert_specular, blur_radius, metallic_intensity, emission_intensity, opacity_threshold, invert_roughness, resolution)
     output_dir = "output_textures"
     return (Image.fromarray(textures["Normal Map"]),
