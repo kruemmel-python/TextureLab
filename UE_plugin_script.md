@@ -9,6 +9,7 @@ Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten T
 ## **Voraussetzungen**
 1. Unreal Engine (Version 4.26 oder höher empfohlen).
 2. Aktiviertes **Python Editor Script Plugin**.
+![image](https://github.com/user-attachments/assets/67ba7818-ed8f-429e-a888-800c7aa9ddf0)
 
 3. Python 3.x (für externe Skript-Ausführungen).
 4. Ordner mit generierten Texturen (z. B. aus TextureLab).
@@ -24,7 +25,8 @@ Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten T
 - Suche nach `Python` und aktiviere das **Python Editor Script Plugin**.
 - Starte Unreal Engine neu, um die Änderungen zu übernehmen.
 
-![Python Plugin Aktivierung](https://your-image-link.com)  
+![image](https://github.com/user-attachments/assets/4f062248-124b-492e-9a65-fd356a487bdc)
+
 
 ---
 
@@ -35,12 +37,11 @@ Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten T
 
 ### **3. Ausführen des Skripts**
 - Gehe zu **Window > Developer Tools > Output Log**, um die Konsole zu öffnen.
-- Lade das Skript über den folgenden Befehl (ersetze den Pfad mit dem tatsächlichen Speicherort des Skripts):
-  ```bash
-  py "F:/texturecreator/UE_plugin_script.py"
-  ```
+- ![image](https://github.com/user-attachments/assets/128bef23-ee6d-476c-8d0b-c64f3d95a27f)
 
-- Alternativ kannst du das Skript auch über ein externes Python-Programm ausführen.
+- Lade das Skript über den Menüpunkt:
+ ![image](https://github.com/user-attachments/assets/5e56fdd2-23f8-4c8f-a0d7-86ee511fd7ee)
+
 
 ---
 
