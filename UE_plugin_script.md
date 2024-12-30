@@ -1,8 +1,27 @@
-
 # Unreal Engine Plugin Script (`UE_plugin_script.py`)
 
 ## **Beschreibung**
 Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten Texturen in ein Unreal Engine Projekt. Es importiert automatisch Texturen aus einem definierten Ordner und erstellt ein grundlegendes Material. Dieses Plugin bietet eine automatisierte Lösung, die den manuellen Aufwand reduziert und den Workflow beschleunigt.
+
+---
+
+## **Inhaltsübersicht**
+- [Beschreibung](#beschreibung)
+- [Voraussetzungen](#voraussetzungen)
+- [Schritt-für-Schritt Anleitung](#schritt-für-schritt-anleitung)
+  - [Aktivierung des Python Plugins](#1-aktivierung-des-python-plugins-in-unreal-engine)
+  - [Platzierung des Skripts](#2-platzierung-des-skripts)
+  - [Ausführen des Skripts](#3-ausführen-des-skripts)
+- [Skript-Funktionalitäten](#4-skript-funktionalitäten)
+  - [Texturen importieren](#texturen-importieren)
+  - [Material erstellen](#material-erstellen)
+- [Konfiguration](#konfiguration)
+- [Bekannte Probleme](#bekannte-probleme)
+- [Vorteile des Skripts](#vorteile-des-skripts)
+- [Beispiel für eine Ordnerstruktur](#beispiel-für-eine-ordnerstruktur)
+- [FAQ](#faq)
+- [Anpassungen und Erweiterungen](#anpassungen-und-erweiterungen)
+- [Autor](#autor)
 
 ---
 
@@ -27,7 +46,6 @@ Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten T
 
 ![image](https://github.com/user-attachments/assets/4f062248-124b-492e-9a65-fd356a487bdc)
 
-
 ---
 
 ### **2. Platzierung des Skripts**
@@ -37,11 +55,12 @@ Das `UE_plugin_script.py` ermöglicht die einfache Integration von generierten T
 
 ### **3. Ausführen des Skripts**
 - Gehe zu **Window > Developer Tools > Output Log**, um die Konsole zu öffnen.
-- ![image](https://github.com/user-attachments/assets/128bef23-ee6d-476c-8d0b-c64f3d95a27f)
+
+![image](https://github.com/user-attachments/assets/128bef23-ee6d-476c-8d0b-c64f3d95a27f)
 
 - Lade das Skript über den Menüpunkt:
- ![image](https://github.com/user-attachments/assets/5e56fdd2-23f8-4c8f-a0d7-86ee511fd7ee)
 
+![image](https://github.com/user-attachments/assets/5e56fdd2-23f8-4c8f-a0d7-86ee511fd7ee)
 
 ---
 
@@ -115,6 +134,18 @@ F:/texturecreator/output_textures/
 
 ---
 
+### **FAQ**
+**Q: Warum wird mein Material nicht automatisch mit Texturen verbunden?**  
+A: Das Skript erstellt ein leeres Material. Du kannst die Texturen manuell im Material Editor hinzufügen, um die volle Kontrolle über die Materialgestaltung zu behalten.
+
+**Q: Welche Unreal Engine-Version wird unterstützt?**  
+A: Das Skript wurde mit Unreal Engine 4.26+ getestet und sollte mit neueren Versionen kompatibel sein.
+
+**Q: Warum wird eine meiner Texturen nicht importiert?**  
+A: Stelle sicher, dass die entsprechenden Dateien im Ordner `LOCAL_TEXTURE_PATH` vorhanden sind. Fehlende Dateien werden im Log vermerkt und übersprungen.
+
+---
+
 ## **Anpassungen und Erweiterungen**
 Das Skript kann weiterentwickelt werden, um:
 - Automatisierte Verbindungen von Texturen in das Material herzustellen.
@@ -126,4 +157,3 @@ Das Skript kann weiterentwickelt werden, um:
 ### **Autor**
 Ralf Krümmel  
 *Innovative Tools für Game-Entwicklung und Texturerstellung.*
-
